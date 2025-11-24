@@ -73,11 +73,6 @@ export const fetchAccessToken = async (
   }
 };
 
-export const logout = () => {
-  window.localStorage.removeItem('spotify_token');
-  window.localStorage.removeItem('spotify_code_verifier');
-};
-
 export const getStoredToken = (): string | null => {
   return window.localStorage.getItem('spotify_token');
 };

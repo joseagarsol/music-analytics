@@ -1,0 +1,47 @@
+:root {
+  /* Dark Theme Colors */
+  --bg-principal: #121212;
+  --bg-superficie: #1e1e1e;
+  --bg-hover: #282828;
+
+  /*Paleta de textos*/
+  --texto-principal: #f5f5f5;
+  --texto-secundario: #b3b3b3;
+  --texto-deshabilitado: #757575;
+
+  /*Paleta de acentos*/
+  --acento-spotify: #1db954;
+}
+
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-principal);
+  color: var(--texto-principal);
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  gap: 20px;
+}
+
+h1 {
+  size: 2rem;
+  margin: 0;
+}
