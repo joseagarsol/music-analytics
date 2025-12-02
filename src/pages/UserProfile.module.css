@@ -1,0 +1,148 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.headerGradient {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 185, 84, 0.2) 0%,
+    var(--bg-principal)
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 0 24px 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.avatarContainer {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 6px solid var(--bg-principal);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  margin-bottom: 24px;
+  background-color: var(--bg-superficie);
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.displayName {
+  margin: 0 0 8px 0;
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: var(--var-principal);
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.statsNumber {
+  color: var(--acento);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.statsLabel {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.profile-card {
+  background: var(--bg-superficie);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 60px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--acento-spotify);
+}
+
+.actions {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.buttonBase {
+  padding: 16px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s background-color 0.2s;
+  width: 100%;
+  display: block;
+  box-sizing: border-box;
+}
+
+.buttonBase:active {
+  transform: scale(0.98);
+}
+
+.primaryButton {
+  text-decoration: none;
+  background-color: var(--acento-spotify);
+  color: #000;
+  box-shadow: 0 4px 12px rgba(20, 185, 84, 0.3);
+  border: none;
+}
+
+.primaryButton:hover {
+  background-color: #1ed760;
+}
+
+.secondaryButton {
+  background: transparent;
+  border: 2px solid var(--texto-secundario);
+  color: var(--texto-principal);
+}
+
+.secondaryButton:hover {
+  border-color: var(--texto-principal);
+}

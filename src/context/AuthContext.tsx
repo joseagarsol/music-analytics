@@ -7,14 +7,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
 }
 
-const AuthContextTypeNull: AuthContextType = {
-  token: null,
-  login: () => {},
-  logout: () => {},
-  isAuthenticated: false,
-};
-
-export const AuthContext = createContext<AuthContextType>(AuthContextTypeNull);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
