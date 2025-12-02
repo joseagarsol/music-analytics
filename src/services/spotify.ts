@@ -19,7 +19,10 @@ export const redirectToSpotifyAuth = async () => {
   const authUrl = new URL('https://accounts.spotify.com/authorize');
   authUrl.searchParams.append('response_type', 'code');
   authUrl.searchParams.append('client_id', clientId);
-  authUrl.searchParams.append('scope', 'user-top-read');
+  authUrl.searchParams.append(
+    'scope',
+    'user-read-private user-read-email user-top-read'
+  );
   authUrl.searchParams.append('redirect_uri', redirectUri);
   authUrl.searchParams.append('code_challenge_method', 'S256');
   authUrl.searchParams.append('code_challenge', codeChallenge);
