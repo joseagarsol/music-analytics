@@ -1,0 +1,139 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-principal);
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.headerGradient {
+  height: 250px;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(29, 185, 84, 0.15) 0%,
+    var(--bg-principal) 100%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 2rem;
+  color: var(--text-principal);
+}
+
+.filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  background: transparent;
+  border: 1px solid var(--texto-secundario);
+  color: var(--texto-secundario);
+  padding: 8px 16px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2 easy;
+}
+
+.filterButton:hover {
+  border-color: var(--texto-principal);
+  color: var(--texto-principal);
+}
+
+.activeFilter {
+  background-color: var(--acento-spotify);
+  border-color: var(--acento-spotify);
+  color: #000;
+}
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: var(--texto-secundario);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 24px;
+}
+
+.trackCard {
+  background-color: var(--bg-superficie);
+  padding: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.trackImagecontainer {
+  width: 100%;
+  aspect-ratio: 1;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.trackImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rankBadge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--acento-spotify);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.trackName {
+  font-weight: 700;
+  color: var(--texto-principal);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artistName {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

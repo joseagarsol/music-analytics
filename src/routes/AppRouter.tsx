@@ -3,6 +3,7 @@ import { Route, Redirect, Switch } from 'wouter';
 import Login from '../pages/Login';
 import UserProfile from '../pages/UserProfile';
 import NotFound from '../pages/NotFound';
+import TopTracks from '../pages/TopTracks';
 
 export default function AppRouter() {
   const auth = useAuth();
@@ -14,6 +15,9 @@ export default function AppRouter() {
       </Route>
       <Route path="/profile">
         {auth.isAuthenticated ? <UserProfile /> : <Redirect to="/" />}
+      </Route>
+      <Route path="/top-tracks">
+        {auth.isAuthenticated ? <TopTracks /> : <Redirect to="/" />}
       </Route>
       <Route component={NotFound} />
     </Switch>

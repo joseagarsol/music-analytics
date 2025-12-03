@@ -1,9 +1,6 @@
 import { useState, useMemo } from 'react';
 import { AuthContext } from './AuthContext';
-
-const getStoredToken = () => {
-  return window.localStorage.getItem('spotify_token');
-};
+import { getStoredToken } from '../services/auth';
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(getStoredToken());
