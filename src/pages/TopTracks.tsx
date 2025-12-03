@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import styles from './TopTracks.module.css';
 import { getTopTracks } from '../services/spotify';
 import type { TimeRange, Track } from '../types/spotify';
+import GenreChart from '../components/features/analytics/GenreChart';
 
 export default function TopTracks() {
   const { token, logout } = useAuth();
@@ -58,6 +59,8 @@ export default function TopTracks() {
             Desde siempre
           </button>
         </div>
+
+        {!loading && tracks.length > 0 && <GenreChart tracks={tracks} />}
 
         {loading ? (
           <div className={styles.loading}> Cargando tus temazos... 🤘🎵🧨</div>

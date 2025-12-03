@@ -27,3 +27,11 @@ export interface Track {
   popularity: number;
   duration_ms: number;
 }
+
+export interface ArtistFull {
+  id: string;
+  name: string;
+  images: SpotifyImage[];
+  genres: string[];
+  popularity: number;
+}

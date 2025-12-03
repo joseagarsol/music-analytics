@@ -1,0 +1,30 @@
+.container {
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 40px 0;
+  background-color: rgba(255, 255, 255, 0.02);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.title {
+  color: var(--texto-principal);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.subtitle {
+  color: var(--texto-secundario);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.loader {
+  color: var(--texto-secundario);
+}
