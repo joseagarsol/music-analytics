@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
 import { useLocation } from 'wouter';
-import { redirectToSpotifyAuth, fetchAccessToken } from '../services/spotify';
+import { redirectToSpotifyAuth, fetchAccessToken } from '../services/auth';
 import Button from '../components/ui/Button';
 import { useAuth } from '../context/AuthContext';
 
