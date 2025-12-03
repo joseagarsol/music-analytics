@@ -1,4 +1,4 @@
-import { type TimeRange, type Track } from '../types/spotify';
+import { type TimeRange, type Track, type ArtistFull } from '../types/spotify';
 
 interface TopTracksResponse {
   items: Track[];
@@ -8,6 +8,10 @@ interface TopTracksResponse {
   href: string;
   previous: string | null;
   next: string | null;
+}
+
+interface ArtistResponse {
+  artists: ArtistFull[];
 }
 
 export const getTopTracks = async (
@@ -46,4 +50,29 @@ export const getTopTracks = async (
     console.error(error);
     throw error;
   }
+};
+
+export const getArtist = async (
+  token: string,
+  artistIds: string[]
+): Promise<ArtistFull[]> => {
+  const uniqueIds = [...new Set(artistIds)];
+  const idsString = uniqueIds.join(',');
+
+  const response = await fetch(
+    `https://api.spotify.com/v1/artists?ids=${idsString}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Error fetching artist');
+  }
+
+  const data: ArtistResponse = await response.json();
+  return data.artists;
 };
