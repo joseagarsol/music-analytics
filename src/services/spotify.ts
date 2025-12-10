@@ -14,6 +14,10 @@ interface ArtistResponse {
   artists: ArtistFull[];
 }
 
+interface TopArtistsResponse {
+  items: ArtistFull[];
+}
+
 export const getTopTracks = async (
   token: string,
   timeRange: TimeRange = 'medium_term',
@@ -75,4 +79,35 @@ export const getArtist = async (
 
   const data: ArtistResponse = await response.json();
   return data.artists;
+};
+
+export const getTopArtists = async (
+  token: string,
+  timeRange: TimeRange = 'medium_term',
+  limit: number = 20
+): Promise<ArtistFull[]> => {
+  const params = new URLSearchParams({
+    time_range: timeRange,
+    limit: limit.toString(),
+  });
+
+  const response = await fetch(
+    `https://api.spotify.com/v1/me/top/artists?${params.toString()}`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('TOKEN EXPIRED');
+    }
+    throw new Error('Error fetching top artist');
+  }
+
+  const data: TopArtistsResponse = await response.json();
+  return data.items;
 };

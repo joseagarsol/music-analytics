@@ -34,4 +34,5 @@ export interface ArtistFull {
   images: SpotifyImage[];
   genres: string[];
   popularity: number;
+  external_urls: { spotify: string };
 }
