@@ -4,6 +4,7 @@ import styles from './TopTracks.module.css';
 import { getTopTracks } from '../services/spotify';
 import type { TimeRange, Track } from '../types/spotify';
 import GenreChart from '../components/features/analytics/GenreChart';
+import TopArtistsList from '../components/features/analytics/TopArtistsList';
 
 export default function TopTracks() {
   const { token, logout } = useAuth();
@@ -89,6 +90,7 @@ export default function TopTracks() {
             ))}
           </div>
         )}
+        <TopArtistsList />
       </div>
     </div>
   );
