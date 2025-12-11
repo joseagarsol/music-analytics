@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './GenreChart.module.css';
-import { type Track } from '../../../types/spotify';
+import type { TimeRange, Track } from '../../../../types/spotify';
 import {
   ResponsiveContainer,
   PieChart,
@@ -9,11 +9,12 @@ import {
   Tooltip,
   Legend,
 } from 'recharts';
-import { useAuth } from '../../../context/AuthContext';
-import { getArtist } from '../../../services/spotify';
+import { useAuth } from '../../../../context/AuthContext';
+import { getArtist } from '../../../../services/spotify';
+import { getTopTracks } from '../../../../services/spotify';
 
 interface Props {
-  tracks: Track[];
+  timeRange: TimeRange;
 }
 
 interface GenreData {
@@ -23,20 +24,30 @@ interface GenreData {
 
 const COLORS = ['#1DB954', '#535353', '#B3B3B3', '#14813aff', '#888888'];
 
-export default function GenreChart({ tracks }: Props) {
+export default function GenreChart({ timeRange }: Props) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<GenreData[]>([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
 
   useEffect(() => {
-    const processGenres = async () => {
-      if (!token || tracks.length === 0) return;
+    const fetchDataAndProcess = async () => {
+      if (!token) return;
       setLoading(true);
 
       try {
-        const allArtistIds = tracks.flatMap((t) => t.artists.map((a) => a.id));
+        const fetchedTracks = await getTopTracks(token, timeRange, 20);
+        setTracks(fetchedTracks);
 
-        const artistsFull = await getArtist(token, allArtistIds);
+        if (fetchedTracks.length === 0) return;
+
+        const allArtistIds = fetchedTracks.flatMap((t) =>
+          t.artists.map((a) => a.id)
+        );
+
+        const uniqueArtistIds = [...new Set(allArtistIds)];
+
+        const artistsFull = await getArtist(token, uniqueArtistIds);
 
         const genreCounts: Record<string, number> = {};
 
@@ -54,14 +65,14 @@ export default function GenreChart({ tracks }: Props) {
 
         setData(sortedGenres);
       } catch (error) {
-        console.error('Error procesando géneros:', error);
+        console.error('Error en análisis de géneros:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    processGenres();
-  }, [tracks, token]);
+    fetchDataAndProcess();
+  }, [token, timeRange]);
 
   if (tracks.length === 0) return null;
 
@@ -85,7 +96,7 @@ export default function GenreChart({ tracks }: Props) {
               dataKey="value"
               nameKey="name"
             >
-              {data.map((entry, index) => (
+              {data.map((_entry, index) => (
                 <Cell
                   key={`cell-${index}`}
                   fill={COLORS[index % COLORS.length]}

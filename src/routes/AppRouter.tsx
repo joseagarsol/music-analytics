@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import UserProfile from '../pages/UserProfile';
 import NotFound from '../pages/NotFound';
 import TopTracks from '../pages/TopTracks';
+import Dashboard from '../pages/dashboard/Dashboard';
 
 export default function AppRouter() {
   const auth = useAuth();
@@ -18,6 +19,9 @@ export default function AppRouter() {
       </Route>
       <Route path="/top-tracks">
         {auth.isAuthenticated ? <TopTracks /> : <Redirect to="/" />}
+      </Route>
+      <Route path="/dashboard">
+        {auth.isAuthenticated ? <Dashboard /> : <Redirect to="/" />}
       </Route>
       <Route component={NotFound} />
     </Switch>
