@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
 import styles from './TopArtistsList.module.css';
-import { type TimeRange, type ArtistFull } from '../../../types/spotify';
-import { useAuth } from '../../../context/AuthContext';
-import { getTopArtists } from '../../../services/spotify';
+import type { TimeRange, ArtistFull } from '../../../../types/spotify';
+import { useAuth } from '../../../../context/AuthContext';
+import { getTopArtists } from '../../../../services/spotify';
 
-export default function TopArtistsList() {
-  const [timeRange, setTimeRange] = useState<TimeRange>('medium_term');
+interface Props {
+  timeRange: TimeRange;
+}
+
+export default function TopArtistsList({ timeRange }: Props) {
   const [artists, setArtists] = useState<ArtistFull[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -76,20 +79,7 @@ export default function TopArtistsList() {
     <div className={styles.container}>
       <div className={styles.header}>
         <h3 className={styles.title}>Tus artistas favoritos ⭐️</h3>
-        {!loading && (
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value as TimeRange)}
-            className={styles.select}
-            disabled={loading}
-          >
-            <option value="short_term">4 Semanas</option>
-            <option value="medium_term">6 Meses</option>
-            <option value="long_term">Siempre</option>
-          </select>
-        )}
       </div>
-
       {renderContent()}
     </div>
   );
