@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import styles from './GenreChart.module.css';
-import type { TimeRange, Track } from '../../../../types/spotify';
+import type { TimeRange } from '../../../../types/spotify';
 import {
   ResponsiveContainer,
   PieChart,
@@ -28,7 +28,7 @@ export default function GenreChart({ timeRange }: Props) {
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<GenreData[]>([]);
-  const [tracks, setTracks] = useState<Track[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchDataAndProcess = async () => {
@@ -37,7 +37,6 @@ export default function GenreChart({ timeRange }: Props) {
 
       try {
         const fetchedTracks = await getTopTracks(token, timeRange, 20);
-        setTracks(fetchedTracks);
 
         if (fetchedTracks.length === 0) return;
 
@@ -65,7 +64,8 @@ export default function GenreChart({ timeRange }: Props) {
 
         setData(sortedGenres);
       } catch (error) {
-        console.error('Error en análisis de géneros:', error);
+        console.error(error);
+        setError('Ocurrió un error al cargar tus géneros dominantes.');
       } finally {
         setLoading(false);
       }
@@ -74,16 +74,19 @@ export default function GenreChart({ timeRange }: Props) {
     fetchDataAndProcess();
   }, [token, timeRange]);
 
-  if (tracks.length === 0) return null;
+  const renderContent = () => {
+    if (loading) {
+      return <div className={styles.loader}>Analizando ADN musical...🧬🎵</div>;
+    }
 
-  return (
-    <div className={styles.container}>
-      <h3 className={styles.title}>Tus géneros dominantes 🎧</h3>
-      <p className={styles.subtitle}>Basado en tus artistas más escuchados</p>
+    if (error) {
+      return <p className={styles.errorMessage}>{error}</p>;
+    }
 
-      {loading ? (
-        <div className={styles.loader}>Analizando ADN musical...🧬🎵</div>
-      ) : (
+    return (
+      <>
+        <h3 className={styles.title}>Tus géneros dominantes 🎧</h3>
+        <p className={styles.subtitle}>Basado en tus artistas más escuchados</p>
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
@@ -116,7 +119,9 @@ export default function GenreChart({ timeRange }: Props) {
             <Legend verticalAlign="bottom" height={36} iconType="circle" />
           </PieChart>
         </ResponsiveContainer>
-      )}
-    </div>
-  );
+      </>
+    );
+  };
+
+  return <div className={styles.container}>{renderContent()}</div>;
 }
