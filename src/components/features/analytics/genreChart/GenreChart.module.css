@@ -28,3 +28,11 @@
 .loader {
   color: var(--texto-secundario);
 }
+
+.errorMessage {
+  color: #ff5252;
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1rem;
+  padding: 0 20px;
+}

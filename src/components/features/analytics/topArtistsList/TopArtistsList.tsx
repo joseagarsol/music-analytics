@@ -36,7 +36,9 @@ export default function TopArtistsList({ timeRange }: Props) {
 
   const renderContent = () => {
     if (loading) {
-      return <p className={styles.emptyStateMessage}>Cargando...</p>;
+      return (
+        <p className={styles.emptyStateMessage}>Cargando artistazos...✨</p>
+      );
     }
 
     if (error) {
@@ -53,7 +55,7 @@ export default function TopArtistsList({ timeRange }: Props) {
     }
 
     return (
-      <div className={styles.list}>
+      <div className={styles.grid}>
         {artists.map((artist, index) => (
           <a
             key={artist.id}
@@ -75,12 +77,5 @@ export default function TopArtistsList({ timeRange }: Props) {
     );
   };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>Tus artistas favoritos ⭐️</h3>
-      </div>
-      {renderContent()}
-    </div>
-  );
+  return <div className={styles.container}>{renderContent()}</div>;
 }

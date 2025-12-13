@@ -12,6 +12,7 @@ export default function TrackList({ timeRange }: Props) {
   const { token } = useAuth();
   const [isLoading, setLoading] = useState(false);
   const [tracks, setTracks] = useState<Track[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTracks = async () => {
@@ -21,7 +22,8 @@ export default function TrackList({ timeRange }: Props) {
         const tracks = await getTopTracks(token, timeRange, 20);
         setTracks(tracks);
       } catch (error) {
-        console.error('Error fetching top tracks:', error);
+        console.error(error);
+        setError('Ocurrió un error al cargar tus temazos favoritos.');
       } finally {
         setLoading(false);
       }
@@ -30,29 +32,47 @@ export default function TrackList({ timeRange }: Props) {
     fetchTracks();
   }, [timeRange, token]);
 
-  if (isLoading)
-    return <div className={style.loading}>Cargando temazos...</div>;
+  const renderContent = () => {
+    if (isLoading) {
+      return <div className={style.loading}>Cargando temazos...</div>;
+    }
 
-  return (
-    <div className={style.grid}>
-      {tracks.map((track, index) => (
-        <div key={track.id} className={style.trackCard}>
-          <div className={style.trackImageContainer}>
-            <div className={style.trackBadge}>{index + 1}</div>
-            <img
-              src={track.album.images[0]?.url}
-              alt={track.name}
-              className={style.trackImage}
-            />
+    if (error) {
+      return <p className={style.errorMessage}>{error}</p>;
+    }
+
+    if (!tracks.length) {
+      return (
+        <p className={style.emptyStateMessage}>
+          No se encontraron temazos para el rango de tiempo seleccionado. ¡Sigue
+          escuchando música para generar tus estadísticas!
+        </p>
+      );
+    }
+
+    return (
+      <div className={style.grid}>
+        {tracks.map((track, index) => (
+          <div key={track.id} className={style.trackCard}>
+            <div className={style.trackImageContainer}>
+              <div className={style.trackBadge}>{index + 1}</div>
+              <img
+                src={track.album.images[0]?.url}
+                alt={track.name}
+                className={style.trackImage}
+              />
+            </div>
+            <div className={style.trackName} title={track.name}>
+              {track.name}
+            </div>
+            <div className={style.artistName}>
+              {track.artists.map((a) => a.name).join(', ')}
+            </div>
           </div>
-          <div className={style.trackName} title={track.name}>
-            {track.name}
-          </div>
-          <div className={style.artistName}>
-            {track.artists.map((a) => a.name).join(', ')}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  };
+
+  return <div className={style.container}>{renderContent()}</div>;
 }
