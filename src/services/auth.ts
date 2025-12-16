@@ -1,4 +1,5 @@
 import { generateRandomString, generateCodeChallenge } from '../helpers';
+import type { UserTokenResponse } from '../types/login';
 
 const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
@@ -32,7 +33,7 @@ export const redirectToSpotifyAuth = async () => {
 
 export const fetchAccessToken = async (
   code: string
-): Promise<string | null> => {
+): Promise<UserTokenResponse | null> => {
   const codeVerifier = window.localStorage.getItem('spotify_code_verifier');
 
   if (!codeVerifier) {
@@ -64,12 +65,11 @@ export const fetchAccessToken = async (
       );
     }
 
-    const data = await response.json();
-    window.localStorage.setItem('spotify_token', data.access_token);
+    const data: UserTokenResponse = await response.json();
 
     window.history.pushState({}, '', '/');
 
-    return data.access_token;
+    return data;
   } catch (error) {
     console.error(error);
     return null;
@@ -78,4 +78,47 @@ export const fetchAccessToken = async (
 
 export const getStoredToken = (): string | null => {
   return window.localStorage.getItem('spotify_token');
+};
+
+const getStoredRefreshToken = (): string | null => {
+  return window.localStorage.getItem('spotify_refresh_token');
+};
+
+export const getRefreshToken = async (): Promise<UserTokenResponse | null> => {
+  const refreshToken = getStoredRefreshToken();
+
+  if (!refreshToken) {
+    console.error('No refresh token found');
+    return null;
+  }
+
+  const url = 'https://accounts.spotify.com/api/token';
+
+  const payload = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: clientId!,
+    }),
+  };
+
+  try {
+    const response = await fetch(url, payload);
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Error refreshing token:', errorData);
+      return null;
+    }
+
+    const data: UserTokenResponse = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Network error refreshing token:', error);
+    return null;
+  }
 };

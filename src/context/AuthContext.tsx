@@ -1,8 +1,9 @@
 import { createContext, useContext } from 'react';
+import type { UserTokenResponse } from '../types/login';
 
 interface AuthContextType {
   token: string | null;
-  login: (token: string) => void;
+  login: (user: UserTokenResponse) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }

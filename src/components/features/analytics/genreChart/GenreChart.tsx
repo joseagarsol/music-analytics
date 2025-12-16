@@ -20,6 +20,7 @@ interface Props {
 interface GenreData {
   name: string;
   value: number;
+  [key: string]: string | number;
 }
 
 const COLORS = ['#1DB954', '#535353', '#B3B3B3', '#14813aff', '#888888'];
@@ -90,7 +91,7 @@ export default function GenreChart({ timeRange }: Props) {
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Pie
-              data={data as any}
+              data={data}
               cx="50%"
               cy="50%"
               innerRadius={60}

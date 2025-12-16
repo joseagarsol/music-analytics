@@ -1,4 +1,6 @@
 import { type TimeRange, type Track, type ArtistFull } from '../types/spotify';
+import { getRefreshToken } from './auth';
+import type { UserTokenResponse } from '../types/login';
 
 interface TopTracksResponse {
   items: Track[];
@@ -18,6 +20,59 @@ interface TopArtistsResponse {
   items: ArtistFull[];
 }
 
+let refreshPromise: Promise<UserTokenResponse | null> | null = null;
+
+const fetchWithAuth = async (
+  input: string,
+  init?: RequestInit
+): Promise<Response> => {
+  let response = await fetch(input, init);
+
+  if (response.status === 401) {
+    if (!refreshPromise) {
+      refreshPromise = getRefreshToken()
+        .then((newTokenData) => {
+          if (newTokenData) {
+            window.localStorage.setItem(
+              'spotify_token',
+              newTokenData.access_token
+            );
+            if (newTokenData.refresh_token) {
+              window.localStorage.setItem(
+                'spotify_refresh_token',
+                newTokenData.refresh_token
+              );
+            }
+
+            window.dispatchEvent(
+              new CustomEvent('spotify_token_refreshed', {
+                detail: newTokenData.access_token,
+              })
+            );
+          }
+          return newTokenData;
+        })
+        .finally(() => {
+          refreshPromise = null;
+        });
+    }
+
+    const newTokenData = await refreshPromise;
+
+    if (newTokenData) {
+      const newInit = { ...init };
+      newInit.headers = {
+        ...newInit.headers,
+        Authorization: `Bearer ${newTokenData.access_token}`,
+      };
+
+      response = await fetch(input, newInit);
+    }
+  }
+
+  return response;
+};
+
 export const getTopTracks = async (
   token: string,
   timeRange: TimeRange = 'medium_term',
@@ -30,7 +85,7 @@ export const getTopTracks = async (
   });
 
   try {
-    const response = await fetch(
+    const response = await fetchWithAuth(
       `https://api.spotify.com/v1/me/top/tracks?${params.toString()}`,
       {
         method: 'GET',
@@ -42,9 +97,6 @@ export const getTopTracks = async (
     );
 
     if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error('TOKEN EXPIRED');
-      }
       throw new Error(`Error fetching top tracks: ${response.statusText}`);
     }
 
@@ -63,7 +115,7 @@ export const getArtist = async (
   const uniqueIds = [...new Set(artistIds)];
   const idsString = uniqueIds.join(',');
 
-  const response = await fetch(
+  const response = await fetchWithAuth(
     `https://api.spotify.com/v1/artists?ids=${idsString}`,
     {
       method: 'GET',
@@ -91,7 +143,7 @@ export const getTopArtists = async (
     limit: limit.toString(),
   });
 
-  const response = await fetch(
+  const response = await fetchWithAuth(
     `https://api.spotify.com/v1/me/top/artists?${params.toString()}`,
     {
       method: 'GET',
@@ -102,9 +154,6 @@ export const getTopArtists = async (
   );
 
   if (!response.ok) {
-    if (response.status === 401) {
-      throw new Error('TOKEN EXPIRED');
-    }
     throw new Error('Error fetching top artist');
   }
 
