@@ -1,74 +1,9 @@
 import { useAuth } from '../../context/AuthContext';
-import { useEffect, useState, useCallback } from 'react';
 import styles from './UserProfile.module.css';
 
-interface UserProfileData {
-  display_name: string;
-  email: string;
-  images: { url: string }[];
-  followers: { total: number };
-  external_urls: { spotify: string };
-}
-
 export default function UserProfile() {
-  const [profile, setProfile] = useState<UserProfileData | null>(null);
-  const [loading, setLoading] = useState(true);
-
   const auth = useAuth();
-
-  const handleLogout = useCallback(() => {
-    auth.logout();
-  }, [auth]);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const token = window.localStorage.getItem('spotify_token');
-
-      if (!token) {
-        handleLogout();
-        return;
-      }
-
-      try {
-        const response = await fetch('https://api.spotify.com/v1/me', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
-          console.error('Error detallado de Spotify:', {
-            status: response.status,
-            statusText: response.statusText,
-            error: errorData,
-          });
-          throw new Error(
-            `Error al obtener el perfil: ${response.status} ${JSON.stringify(
-              errorData
-            )}`
-          );
-        }
-
-        const data = await response.json();
-
-        setProfile(data);
-      } catch (error) {
-        console.error('Error fetching profile: ', error);
-        // No hacemos logout automático para que puedas ver el error en consola
-        // handleLogout();
-        setLoading(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [handleLogout]);
-
-  if (loading) {
-    return <p>Cargando perfil...</p>;
-  }
+  const profile = auth.user;
 
   if (!profile) {
     return null;
@@ -107,7 +42,7 @@ export default function UserProfile() {
           </a>
 
           <button
-            onClick={handleLogout}
+            onClick={auth.logout}
             className={`${styles.buttonBase} ${styles.secondaryButton}`}
           >
             Cerrar Sesión

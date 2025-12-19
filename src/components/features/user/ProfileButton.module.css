@@ -1,0 +1,82 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.containerButton {
+  cursor: pointer;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  border: 6px solid var(--bg-superficie);
+  outline: 0px solid var(--bg-superficie);
+  overflow: hidden;
+  transition: outline-width 100ms ease-in-out;
+}
+
+.containerButton:hover {
+  outline-width: 4px;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.initialsAvatar {
+  background-color: var(--acento-spotify);
+  color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+@keyframes MenuEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 200px;
+  background-color: var(--bg-superficie);
+  border-radius: 4px;
+  padding: 4px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    0 16px 24px rgba(0, 0, 0, 0.3),
+    0 6px 8px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: MenuEnter 0.2s ease-out forwards;
+  transform-origin: top right;
+}
+
+.menuItem {
+  display: flex;
+  padding: 12px;
+  color: var(--texto-secundario);
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  margin: 2px;
+  text-decoration: none;
+}
+
+.menuItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}

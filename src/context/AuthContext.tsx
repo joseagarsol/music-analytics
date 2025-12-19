@@ -1,8 +1,10 @@
 import { createContext, useContext } from 'react';
 import type { UserTokenResponse } from '../types/login';
+import type { SpotifyUser } from '../types/spotify';
 
 interface AuthContextType {
   token: string | null;
+  user: SpotifyUser | null;
   login: (user: UserTokenResponse) => void;
   logout: () => void;
   isAuthenticated: boolean;
