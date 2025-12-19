@@ -1,3 +1,4 @@
+import { Link } from 'wouter';
 import { useAuth } from '../../context/AuthContext';
 import styles from './UserProfile.module.css';
 
@@ -15,11 +16,17 @@ export default function UserProfile() {
 
       <div className={styles.content}>
         <div className={styles.avatarContainer}>
-          <img
-            src={profile.images[0].url}
-            alt={profile.display_name}
-            className={styles.avatarImage}
-          />
+          {profile.images && profile.images.length > 0 ? (
+            <img
+              src={profile.images[0].url}
+              alt={profile.display_name}
+              className={styles.avatarImage}
+            />
+          ) : (
+            <div className={styles.initialsAvatar}>
+              {profile.display_name ? profile.display_name.charAt(0) : '?'}
+            </div>
+          )}
         </div>
 
         <h1 className={styles.displayName}>{profile.display_name}</h1>
@@ -32,6 +39,12 @@ export default function UserProfile() {
         </div>
 
         <div className={styles.actions}>
+          <Link
+            to="/dashboard"
+            className={`${styles.buttonBase} ${styles.primaryButton}`}
+          >
+            Dashboard Musical
+          </Link>
           <a
             href={profile.external_urls.spotify}
             target="_blank"
@@ -40,13 +53,12 @@ export default function UserProfile() {
           >
             Abrir en Spotify
           </a>
-
-          <button
+          <a
             onClick={auth.logout}
             className={`${styles.buttonBase} ${styles.secondaryButton}`}
           >
             Cerrar Sesión
-          </button>
+          </a>
         </div>
       </div>
     </main>
