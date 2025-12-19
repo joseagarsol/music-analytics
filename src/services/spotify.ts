@@ -1,6 +1,7 @@
 import { type TimeRange, type Track, type ArtistFull } from '../types/spotify';
 import { getRefreshToken } from './auth';
 import type { UserTokenResponse } from '../types/login';
+import type { SpotifyUser } from '../types/spotify';
 
 interface TopTracksResponse {
   items: Track[];
@@ -159,4 +160,20 @@ export const getTopArtists = async (
 
   const data: TopArtistsResponse = await response.json();
   return data.items;
+};
+
+export const getUserProfile = async (token: string): Promise<SpotifyUser> => {
+  const response = await fetchWithAuth('https://api.spotify.com/v1/me', {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Error fetching user profile');
+  }
+
+  const data: SpotifyUser = await response.json();
+  return data;
 };

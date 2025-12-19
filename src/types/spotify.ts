@@ -36,3 +36,12 @@ export interface ArtistFull {
   popularity: number;
   external_urls: { spotify: string };
 }
+
+export interface SpotifyUser {
+  id: string;
+  display_name: string;
+  email: string;
+  images: SpotifyImage[];
+  followers: { total: number };
+  external_urls: { spotify: string };
+}
