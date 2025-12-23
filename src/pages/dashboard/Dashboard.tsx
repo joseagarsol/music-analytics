@@ -14,11 +14,13 @@ export default function Dashboard() {
 
   return (
     <>
+      {/* TODO: Hay ficheros donde importo el fichero de estilos como "style" y otros como "styles". Sería bueno unificarlo. */}
       <div className={style.profileContainer}>
         <ProfileButton />
       </div>
       <div className={style.container}>
-        <h1 className={style.title}>Dashboard Musical</h1>
+        <div className={style.headerGradient} />
+        <h1 className={style.title}>Análisis Musical</h1>
 
         <div className={style.timeFilter}>
           <button
