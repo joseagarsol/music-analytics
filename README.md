@@ -11,7 +11,7 @@ Aplicación web para visualizar y analizar tus datos de escucha de Spotify. Desc
 Actualmente, esta aplicación se encuentra en **modo de desarrollo** ("Development Mode") dentro de la plataforma de desarrolladores de Spotify. Esto significa que **solo los usuarios explícitamente autorizados pueden iniciar sesión**.
 
 > **¿Quieres probar la app?**
-> Debes solicitar acceso para que tu correo de Spotify sea añadido a la lista de usuarios permitidos. Por favor, contacta con el administrador del proyecto para habilitar tu acceso.
+> Debes solicitar acceso para que tu correo de Spotify sea añadido a la lista de usuarios permitidos. Por favor, contacta con el administrador del proyecto a través del correo joseagarsol@gmail.com para habilitar tu acceso.
 
 ---
 
