@@ -1,73 +1,87 @@
-# React + TypeScript + Vite
+# 🎵 Spotify Music Analyst
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para visualizar y analizar tus datos de escucha de Spotify. Descubre tus canciones favoritas, artistas más escuchados y desglose de géneros musicales en diferentes rangos de tiempo.
 
-Currently, two official plugins are available:
+🔗 **Demo en vivo:** [https://sage-halva-fb4068.netlify.app](https://sage-halva-fb4068.netlify.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ⚠️ Nota Importante sobre el Acceso
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Actualmente, esta aplicación se encuentra en **modo de desarrollo** ("Development Mode") dentro de la plataforma de desarrolladores de Spotify. Esto significa que **solo los usuarios explícitamente autorizados pueden iniciar sesión**.
 
-## Expanding the ESLint configuration
+> **¿Quieres probar la app?**
+> Debes solicitar acceso para que tu correo de Spotify sea añadido a la lista de usuarios permitidos. Por favor, contacta con el administrador del proyecto para habilitar tu acceso.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Características
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **Autenticación Segura:** Inicio de sesión con Spotify mediante OAuth 2.0 con PKCE.
+- **Top Canciones:** Visualiza tus temas más escuchados (4 semanas, 6 meses o histórico completo).
+- **Top Artistas:** Ranking de tus artistas favoritos.
+- **Análisis de Géneros:** Gráfico interactivo que muestra la distribución de tus géneros musicales.
+- **Interfaz Moderna:** Diseño responsivo y animado.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Stack Tecnológico
+
+- **Frontend:** [React 19](https://react.dev/)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool:** [Vite](https://vitejs.dev/) (con SWC)
+- **Enrutamiento:** [Wouter](https://github.com/molefrog/wouter)
+- **Gráficos:** [Recharts](https://recharts.org/)
+- **Estilos:** CSS Modules + Variables CSS nativas
+- **Calidad de Código:** ESLint + Prettier
+
+## 📦 Instalación y Configuración Local
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone https://github.com/tu-usuario/music-analytics.git
+   cd music-analytics
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Configurar variables de entorno:**
+   Crea un archivo `.env` en la raíz del proyecto basándote en las siguientes variables:
+
+   ```env
+   VITE_SPOTIFY_CLIENT_ID=tu_client_id_de_spotify
+   VITE_SPOTIFY_REDIRECT_URI=http://localhost:5173/callback
+   ```
+   > Nota: Debes registrar una aplicación en [Spotify for Developers](https://developer.spotify.com/dashboard) para obtener tu Client ID. Asegúrate de añadir `http://localhost:5173/callback` en la configuración de "Redirect URIs" de tu app en Spotify.
+
+4. **Ejecutar el servidor de desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+## 📜 Scripts Disponibles
+
+- `npm run dev`: Inicia el servidor de desarrollo.
+- `npm run build`: Compila la aplicación para producción.
+- `npm run lint`: Ejecuta ESLint para buscar problemas en el código.
+- `npm run format`: Formatea el código usando Prettier.
+
+## 📂 Estructura del Proyecto
+
+```
+src/
+├── components/
+│   ├── features/    # Componentes con lógica de negocio (Analytics, User, Auth)
+│   └── ui/          # Componentes de presentación reutilizables
+├── context/         # Contexto global (Auth)
+├── helpers/         # Funciones de utilidad
+├── pages/           # Vistas principales (Dashboard, Login, Profile)
+├── services/        # Lógica de comunicación con APIs (Spotify API)
+├── types/           # Definiciones de tipos TypeScript
+└── routes/          # Configuración de rutas
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📄 Licencia
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Este proyecto es para fines educativos y personales.
