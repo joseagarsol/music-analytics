@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import style from './ProfileButton.module.css';
+import styles from './ProfileButton.module.css';
 import { useAuth } from '../../../context/AuthContext';
 import { Link } from 'wouter';
 
@@ -31,27 +31,30 @@ export default function ProfileButton() {
   }
 
   return (
-    <div className={style.wrapper} ref={wrapperRef}>
-      <div className={style.containerButton} onClick={() => setIsOpen(!isOpen)}>
+    <div className={styles.wrapper} ref={wrapperRef}>
+      <div
+        className={styles.containerButton}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {profile.images && profile.images.length > 0 ? (
           <img
             src={profile.images[0].url}
             alt={profile.display_name}
-            className={style.avatarImage}
+            className={styles.avatarImage}
           />
         ) : (
-          <div className={style.initialsAvatar}>
+          <div className={styles.initialsAvatar}>
             {profile.display_name ? profile.display_name.charAt(0) : '?'}
           </div>
         )}
       </div>
 
       {isOpen && (
-        <div className={style.dropdownMenu}>
-          <Link className={style.menuItem} to="/profile">
+        <div className={styles.dropdownMenu}>
+          <Link className={styles.menuItem} to="/profile">
             Ver Perfil
           </Link>
-          <a className={style.menuItem} onClick={auth.logout}>
+          <a className={styles.menuItem} onClick={auth.logout}>
             Cerrar Sesión
           </a>
         </div>

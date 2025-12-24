@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../../../../context/AuthContext';
 import type { TimeRange, Track } from '../../../../types/spotify';
 import { getTopTracks } from '../../../../services/spotify';
-import style from './TrackList.module.css';
+import styles from './TrackList.module.css';
 
 interface Props {
   timeRange: TimeRange;
@@ -34,16 +34,18 @@ export default function TrackList({ timeRange }: Props) {
 
   const renderContent = () => {
     if (isLoading) {
-      return <div className={style.loading}>Cargando temazos...</div>;
+      return (
+        <div className={styles.emptyStateMessage}>Cargando temazos...💥</div>
+      );
     }
 
     if (error) {
-      return <p className={style.errorMessage}>{error}</p>;
+      return <p className={styles.errorMessage}>{error}</p>;
     }
 
     if (!tracks.length) {
       return (
-        <p className={style.emptyStateMessage}>
+        <p className={styles.emptyStateMessage}>
           No se encontraron temazos para el rango de tiempo seleccionado. ¡Sigue
           escuchando música para generar tus estadísticas!
         </p>
@@ -51,21 +53,21 @@ export default function TrackList({ timeRange }: Props) {
     }
 
     return (
-      <div className={style.grid}>
+      <div className={styles.grid}>
         {tracks.map((track, index) => (
-          <div key={track.id} className={style.trackCard}>
-            <div className={style.trackImageContainer}>
-              <div className={style.trackBadge}>{index + 1}</div>
+          <div key={track.id} className={styles.trackCard}>
+            <div className={styles.trackImageContainer}>
+              <div className={styles.trackBadge}>{index + 1}</div>
               <img
                 src={track.album.images[0]?.url}
                 alt={track.name}
-                className={style.trackImage}
+                className={styles.trackImage}
               />
             </div>
-            <div className={style.trackName} title={track.name}>
+            <div className={styles.trackName} title={track.name}>
               {track.name}
             </div>
-            <div className={style.artistName}>
+            <div className={styles.artistName}>
               {track.artists.map((a) => a.name).join(', ')}
             </div>
           </div>
@@ -74,5 +76,5 @@ export default function TrackList({ timeRange }: Props) {
     );
   };
 
-  return <div className={style.container}>{renderContent()}</div>;
+  return <div className={styles.container}>{renderContent()}</div>;
 }
